@@ -1,5 +1,6 @@
 const score = document.querySelector('.score')
 const bestScore = document.querySelector('.score-best')
+const tiles = document.querySelectorAll('.tile')
 
 const newGame = document.querySelector('.new-game')
 
@@ -32,22 +33,35 @@ function changeStyles() {
         }
     }
 }
-changeStyles()
 
 function createTile() {
+    const numbers = [2, 4]
+
     const tile = document.createElement('div')
     tile.classList.add('tile-inner')
-    tile.textContent = `${randomNumber(1, 0)}`
-
-    function randomNumber(max, min) {
-        const numbers = [2, 4]
-
-        const random = min - 0.5 + Math.random() * (max - min + 1)
-        return numbers[Math.round(random)]
-    }
+    tile.textContent = `${numbers[randomNumber(1, 0)]}`
 
     return tile
 }
+
+function randomNumber(max, min) {
+    const random = min - 0.5 + Math.random() * (max - min + 1)
+    return Math.round(random)
+}
+
+function spawnTile() {
+    const lastTiles = []
+
+    for (let i = 0; i < tiles.length; i++) {
+        
+        if (i >= 12) {
+            lastTiles.push(tiles[i])
+        }
+    }
+
+    lastTiles[randomNumber(3, 0)].append(createTile())
+}
+spawnTile()
 
 function countTiles() {
     const tiles = document.querySelectorAll('.tile')
@@ -60,3 +74,5 @@ function countTiles() {
     })
 }
 countTiles()
+
+changeStyles()
